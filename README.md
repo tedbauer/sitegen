@@ -15,9 +15,9 @@ Generated site structure:
 ```
 site-name/
   site/
-	  page1.md
-		...
-	index.html
+    page1.md
+    ...
+  index.html
 ```
 
 Place markdown files in `site-name`, and a table of contents will be generated in `index.html`.
