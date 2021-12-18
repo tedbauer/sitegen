@@ -20,5 +20,9 @@ site-name/
   index.html
 ```
 
-Place markdown files in `site-name`, and a table of contents will be generated in `index.html`.
+Place markdown files in `site/`, and a table of contents will be generated in `index.html`.
 You can write math expressions like `$$ x + 5 $$`, and they'll be rendered with [KaTeX](https://katex.org/).
+Then, build the site:
+```
+cargo run -- --build
+```
