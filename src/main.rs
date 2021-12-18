@@ -29,6 +29,7 @@ fn wrap_in_html(body: &str) -> String {
 fn main() -> std::io::Result<()> {
 	let mut new_site = false;
 	let mut build = false;
+	let mut site_name = "my_site".to_string();
 	{
 		let mut ap = ArgumentParser::new();
 		ap
@@ -38,14 +39,19 @@ fn main() -> std::io::Result<()> {
 		ap
 			.refer(&mut build)
 			.add_option(&["-b", "--build"], StoreTrue, "Build site");
+		
+		ap
+			.refer(&mut site_name)
+			.add_option(&["--name"], Store, "The name of the site");
 
 		ap.parse_args_or_exit();
 	}
 	if new_site {
-    fs::create_dir("../site")?;
-    let mut index = File::create("../index.html")?;
+    fs::create_dir(format!("{}", site_name))?;
+    fs::create_dir(format!("{}/site", site_name))?;
+    let mut index = File::create(format!("{}/index.html", site_name))?;
     index.write_all(b"Welcome to my new site created with sitegen")?;
-		println!("Generated new site.")
+		println!("Generated new site '{}'. ", site_name);
 	}
 	if build {
     let mut table_of_contents = "<ul>\n".to_owned();
