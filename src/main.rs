@@ -56,7 +56,7 @@ fn main() -> std::io::Result<()> {
 	if build {
     let mut table_of_contents = "<ul>\n".to_owned();
     let mut pages: Vec<(String, String)> = Vec::new();
-    for entry in fs::read_dir("../site")? {
+    for entry in fs::read_dir(format!("{}/site", site_name))? {
         let entry = entry?;
         table_of_contents.push_str("<li>");
         table_of_contents.push_str(&format!(
@@ -74,12 +74,13 @@ fn main() -> std::io::Result<()> {
     }
     table_of_contents.push_str("</ul>");
 
-    let mut file = File::create("../index.html")?;
+    let mut file = File::create(format!("{}/index.html", site_name))?;
     file.write_all(wrap_in_html(&table_of_contents).as_bytes())?;
-    fs::create_dir("../pages")?;
+    fs::create_dir(format!("{}/pages", site_name))?;
     for (page_name, page_contents) in pages {
         let mut page_file = File::create(format!(
-            "../pages/{}",
+            "{}/pages/{}",
+						site_name,
             str::replace(&page_name, "md", "html")
         ))?;
         page_file.write_all(wrap_in_html(&page_contents).as_bytes())?;
