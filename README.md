@@ -3,10 +3,10 @@
 A static site generator.
 
 Install:
-    $ git clone https://github.com/tedbauer/sitegen
-    $ cd sitegen
-    $ cargo build
-    $ alias sitegen="$(PWD)/target/debug/sitegen"
+  $ git clone https://github.com/tedbauer/sitegen
+  $ cd sitegen
+  $ cargo build
+  $ alias sitegen="$(PWD)/target/debug/sitegen"
 
 Create a new site:
     $ sitegen --new -d example_site # create site at $(PWD)/example_site
