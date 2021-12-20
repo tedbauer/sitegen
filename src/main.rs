@@ -3,11 +3,8 @@ use std::fs::{self};
 use std::io::Write;
 use std::path::PathBuf;
 extern crate argparse;
-<<<<<<< HEAD
 use anyhow::anyhow;
 use anyhow::Result;
-=======
->>>>>>> 00d82f61abfb453c17e229b7de357a80ae512221
 use argparse::{ArgumentParser, Store, StoreTrue};
 
 fn wrap_in_html(body: &str) -> String {
@@ -32,7 +29,6 @@ fn wrap_in_html(body: &str) -> String {
     )
 }
 
-<<<<<<< HEAD
 struct Options {
     new_site: bool,
     site_root_dir: PathBuf,
@@ -151,64 +147,5 @@ fn main() -> std::io::Result<()> {
         build_site(&options).unwrap();
     }
 
-=======
-fn main() -> std::io::Result<()> {
-    let mut new_site = false;
-    let mut build = false;
-    let mut site_name = "my_site".to_string();
-    {
-        let mut ap = ArgumentParser::new();
-        ap.refer(&mut new_site)
-            .add_option(&["-n", "--new"], StoreTrue, "Generate new site");
-
-        ap.refer(&mut build)
-            .add_option(&["-b", "--build"], StoreTrue, "Build site");
-
-        ap.refer(&mut site_name)
-            .add_option(&["--name"], Store, "The name of the site");
-
-        ap.parse_args_or_exit();
-    }
-    if new_site {
-        fs::create_dir(format!("{}", site_name))?;
-        fs::create_dir(format!("{}/site", site_name))?;
-        let mut index = File::create(format!("{}/index.html", site_name))?;
-        index.write_all(b"Welcome to my new site created with sitegen")?;
-        println!("Generated new site '{}'. ", site_name);
-    }
-    if build {
-        let mut table_of_contents = "<ul>\n".to_owned();
-        let mut pages: Vec<(String, String)> = Vec::new();
-        for entry in fs::read_dir(format!("{}/site", site_name))? {
-            let entry = entry?;
-            table_of_contents.push_str("<li>");
-            table_of_contents.push_str(&format!(
-                r#"<a href="pages/{}">"#,
-                str::replace(&entry.file_name().into_string().unwrap(), "md", "html")
-            ));
-            table_of_contents.push_str(&entry.file_name().into_string().unwrap());
-            pages.push((
-                entry.file_name().into_string().unwrap(),
-                fs::read_to_string(&entry.path()).unwrap(),
-            ));
-            table_of_contents.push_str("</a>");
-            table_of_contents.push_str("</li>");
-            table_of_contents.push_str("\n");
-        }
-        table_of_contents.push_str("</ul>");
-
-        let mut file = File::create(format!("{}/index.html", site_name))?;
-        file.write_all(wrap_in_html(&table_of_contents).as_bytes())?;
-        fs::create_dir(format!("{}/pages", site_name))?;
-        for (page_name, page_contents) in pages {
-            let mut page_file = File::create(format!(
-                "{}/pages/{}",
-                site_name,
-                str::replace(&page_name, "md", "html")
-            ))?;
-            page_file.write_all(wrap_in_html(&page_contents).as_bytes())?;
-        }
-    }
->>>>>>> 00d82f61abfb453c17e229b7de357a80ae512221
     Ok(())
 }
