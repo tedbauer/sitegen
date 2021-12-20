@@ -3,6 +3,7 @@
 A static site generator.
 
 Install:
+
   $ git clone https://github.com/tedbauer/sitegen
   $ cd sitegen
   $ cargo build
