@@ -2,27 +2,21 @@
 
 A static site generator.
 
-Create a new site:
+Install:
 ```
 git clone https://github.com/tedbauer/sitegen
 cd sitegen
-
-# Create a new site called 'test-site'.
-cargo run -- --new --name test-site
+cargo build
+alias sitegen="$(PWD)/target/debug/sitegen"
 ```
 
-Generated site structure:
+Create a new site:
 ```
-site-name/
-  site/
-    page1.md
-    ...
-  index.html
-```
+sitegen --new -d example_site # create site at $(PWD)/example_site
+cd example_site
+echo "example webpage 1 $$ x+5 $$" > site/page1.html
+echo "example webpage 2 $$ \frac{x}{y} $$" > site/page2.html
+sitegen
 
-Place markdown files in `site/`, and a table of contents will be generated in `index.html`.
+Place HTML files in `site/`, and a table of contents will be generated in `index.html`.
 You can write math expressions like `$$ x + 5 $$`, and they'll be rendered with [KaTeX](https://katex.org/).
-Then, build the site:
-```
-cargo run -- --build
-```
